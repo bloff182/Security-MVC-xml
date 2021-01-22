@@ -1,0 +1,57 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+    	"http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    	http://www.springframework.org/schema/security 
+    	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+  <!--    
+    <http auto-config="true" >
+        <intercept-url pattern="/" access="hasRole('EMPLOYEE')" />
+        <intercept-url pattern="/leaders/**" access="hasRole('MANAGER')" />
+        <intercept-url pattern="/systems/**" access="hasRole('ADMIN')" />
+        <form-login  authentication-failure-url="/Access_Denied" />
+    </http>
+  
+    <authentication-manager >
+        <authentication-provider>
+            <user-service>
+                <user name="basia"  password="abc123"  authorities="ROLE_EMPLOYEE" />
+                <user name="ala" password="abc123" authorities="ROLE_EMPLOYEE,ROLE_MANAGER" />
+                <user name="paulina"   password="abc123" authorities="ROLE_EMPLOYEE,ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    -->
+    
+    <http security="none" pattern="/resources/**"/>
+	<http use-expressions="true">
+	  <intercept-url pattern="/showMyLoginPage" access="permitAll"/>
+	  <intercept-url pattern="/" access="hasRole('EMPLOYEE')"/>
+	  <intercept-url pattern="/leaders/**" access="hasRole('MANAGER')"/>
+	  <intercept-url pattern="/systems/**" access="hasRole('ADMIN')"/>
+	  <logout
+	      logout-success-url="/showMyLoginPage"
+	      logout-url="/logout"
+	  />
+	  <form-login
+
+	      login-page="/showMyLoginPage"
+	      login-processing-url="/authenticateTheUser"
+	  	  password-parameter="password"
+	      username-parameter="username"
+	  />
+
+	</http>
+	<authentication-manager>
+	  <authentication-provider>
+	    <user-service>
+                <user name="john"  password="{noop}test123"  authorities="ROLE_EMPLOYEE" />
+                <user name="mary" password="{noop}test123" authorities="ROLE_EMPLOYEE,ROLE_MANAGER" />
+                <user name="susan"   password="{noop}test123" authorities="ROLE_EMPLOYEE,ROLE_ADMIN" />
+	    </user-service>
+	  </authentication-provider>
+	</authentication-manager>
+     
+</beans:beans>
